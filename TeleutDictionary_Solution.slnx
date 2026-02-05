@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="../TeleutDictionary.Client/TeleutDictionary.Client.csproj" />
+  <Project Path="TeleutDictionary.API.csproj" />
+</Solution>
