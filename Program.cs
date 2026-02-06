@@ -8,7 +8,7 @@ using TeleutDictionary.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Добавляем сервисы в контейнер
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -45,11 +45,10 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// База данных SQLite
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// JWT аутентификация
 var jwtKey = builder.Configuration["Jwt:Key"] ??
     throw new InvalidOperationException("JWT Key is not configured");
 var key = Encoding.UTF8.GetBytes(jwtKey);
@@ -74,7 +73,7 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// CORS
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -85,14 +84,14 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Наши сервисы
+
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<WordService>();
 builder.Services.AddScoped<HistoryService>();
 
 var app = builder.Build();
 
-// Настройка конвейера HTTP
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -104,7 +103,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-// Создаем базу данных
+
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
